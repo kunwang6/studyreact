@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="text"></div>
+    <script type="text/javascript" src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <script type="text/javascript" src="./js/babel.min.js"></script>
+    <script type="text/javascript" src="./js/prop-types.js"></script>
+
+    <script type="text/babel">
+       class Demo extends React.Component{
+           state = {ishot :true}
+           render(){
+               const {ishot} = this.state
+               return (
+                   <div>
+                    <h2>今天天气很{ishot ? '炎热':'寒冷'}</h2>
+                   { /*<input ref ={c=>this.input1 = c} type="text" placeholder='点击按钮提示数据'/>*/}
+                   <input ref = {this.saveInput} type="text" placeholder='点击按钮提示数据'/>
+                    <button onClick={this.showData}>点我提示</button>
+                    <button onClick={this.change}>切换天气</button>
+                    <input ref = {c=>this.input2 = c} onBlur={this.showData2} type="text" placeholder='数去焦点提示数据'/>
+                    </div>
+               )
+           }
+           saveInput=(e)=>{
+               this.input1 = e
+               console.log(e);
+           }
+           change = ()=>{
+            const {ishot} = this.state
+               this.setState({
+                   ishot :!ishot
+               })
+               //console.log(ishot);
+           }
+           showData = ()=>{
+           
+               alert(this.input1.value)
+               
+           }
+           showData2 = ()=>{
+               alert(this.input2.value)
+           }
+       }
+       ReactDOM.render(<Demo/>,document.getElementById('text'))
+    </script>
+</body>
+</html>
