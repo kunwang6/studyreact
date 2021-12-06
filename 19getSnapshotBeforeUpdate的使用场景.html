@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .title{
+        background-color: aquamarine;
+    }
+    .list{
+        width: 200px;
+        height: 150px;
+        background-color: aquamarine;
+        overflow-y: scroll;
+        }
+        .news{
+            height: 30px;
+        }
+</style>
+<body>
+    <div id="text"></div>
+    <script type="text/javascript" src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <script type="text/javascript" src="./js/babel.min.js"></script>
+
+    <script type="text/babel">
+        /*
+        1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
+    1. constructor()
+    2. getDerivedStateFromProps 
+    3. render()
+    4. componentDidMount()
+	2. 更新阶段: 由组件内部this.setSate()或父组件重新render触发
+    1. getDerivedStateFromProps
+    2. shouldComponentUpdate()
+    3. render()
+    4. getSnapshotBeforeUpdate
+    5. componentDidUpdate()
+	3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
+    1. componentWillUnmount()*/
+   class Newlist extends React.Component{
+       state = {newarr:[]}
+       //组件挂在完毕调用这个 componentDidMount这个钩子
+       componentDidMount(){
+           setInterval(()=>{
+               //console.log(6);
+               const {newarr} = this.state
+               const news = '新闻'+ (newarr.length+1)
+               this.setState({newarr:[news,...newarr]})
+           },1000)
+       }
+       getSnapshotBeforeUpdate(){
+           return this.list.scrollHeight
+       }
+
+       componentDidUpdate(preProps,preState,height){
+           this.list.scrollTop += 30
+       }
+        render(){
+            return (
+                <div className='list' ref = {(e)=>{this.list=e}}>
+                   {this.state.newarr.map((n,index)=>{
+                       return <div key={index} className='news'>{n}</div>
+                   })}
+                   
+                </div>
+            )
+        }
+   }
+   ReactDOM.render(<Newlist/>,document.getElementById('text'))
+    </script>
+</body>
+</html>
